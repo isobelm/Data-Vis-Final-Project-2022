@@ -50,24 +50,7 @@ class Graph {
 		d3.selectAll(".glegend").remove();
 	};
 
-	// loadData() {
-	// 	this.data = [];
-	// 	d3.csv("gapminder.csv", (d) => {
-	// 		this.data.push({
-	// 			year: parseInt(d.year),
-	// 			continent: d.continent,
-	// 			lifeExp: parseFloat(d.lifeExp),
-	// 		});
-	// 	}).then((d) => {
-	// 		this.drawGraph(d);
-	// 	});
-	// }
-
 	drawGraph = () => {
-		// this.data.sort((a, b) => {
-		// 	if (a.year === b.year) return a.lifeExp - b.lifeExp;
-		// 	else return a.year - b.year;
-		// });
 		this.setScale();
 		this.drawXAxis(this.g);
 
@@ -92,8 +75,6 @@ class Graph {
 				return d.x;
 			}),
 		]);
-		// xScale.ticks(6);
-		// let columns = Object.keys(this.data[0].columns);
 		if (this.yAxes.length === 1)
 			this.yScale.domain([
 				d3.min(this.data, (d) => {
@@ -104,33 +85,16 @@ class Graph {
 				}),
 			]);
 		else this.yScale.domain([0, 1]);
-
-		// this.columnWidth = (this.xScale.bandwidth() / 0.8) * 1;
-		// this.paddingCorrection =
-		// 	(this.xScale.bandwidth() - this.columnWidth) / 2;
 	}
 
 	drawXAxis(g) {
 		let background = g.append("g");
 		background
 			.append("rect")
-			// .attr("x", this.xScale(i) + paddingCorrection)
-			// .attr("y", 0)
 			.attr("height", this.height)
 			.attr("width", this.width)
 			.attr("fill", "#27253F");
 
-		// for (let i = 1952; i <= 2007; i += 5) {
-		// 	if ((i - 2) % 10 === 0) {
-		// 		background
-		// 			.append("rect")
-		// 			.attr("x", this.xScale(i) + this.paddingCorrection)
-		// 			.attr("y", 0)
-		// 			.attr("height", this.height)
-		// 			.attr("width", this.columnWidth)
-		// 			.attr("fill", "#201C47");
-		// 	}
-		// }
 		g.append("g")
 			.attr("transform", "translate(0," + this.height + ")")
 			.attr("class", "gaxis gxaxis")

@@ -26,7 +26,8 @@ class Matrix {
 				"translate(" + this.marginAxis + "," + this.marginAxis + ")"
 			);
 		this.loadData();
-		this.graph = new Graph(this.height);
+		// this.graph = new Graph(this.height);
+		this.graph = new MapVis(this.height);
 	}
 
 	pCorrelation = (x, y) => {
@@ -223,6 +224,8 @@ class Matrix {
 		this.drawYAxis(this.g);
 		this.drawSquares(this.g);
 		this.drawTitle();
+		let legend = this.g.append("g");
+		this.drawLegend(legend);
 	};
 
 	drawSquares = (g) => {
@@ -331,5 +334,41 @@ class Matrix {
 			.text(
 				"Correlation Matrix for 'What makes a good government?' dataset"
 			);
+	}
+
+	drawLegend(g) {
+		g.append("rect")
+			.attr("width", 20)
+			.attr("height", 20)
+			.attr("fill", this.zScale(1))
+			.attr("class", "legend")
+			.attr("transform", "translate(-100, -85)");
+		g.append("text")
+			.attr("class", "legend")
+			.attr("font-size", "10px")
+			.attr("transform", "translate(-75, -72)")
+			.text("1");
+		g.append("rect")
+			.attr("width", 20)
+			.attr("height", 20)
+			.attr("fill", this.zScale(0))
+			.attr("class", "legend")
+			.attr("transform", "translate(-100, -60)");
+		g.append("text")
+			.attr("class", "legend")
+			.attr("font-size", "10px")
+			.attr("transform", "translate(-75, -47)")
+			.text("0");
+		g.append("rect")
+			.attr("width", 20)
+			.attr("height", 20)
+			.attr("fill", this.zScale(-1))
+			.attr("class", "legend")
+			.attr("transform", "translate(-100, -35)");
+		g.append("text")
+			.attr("class", "legend")
+			.attr("font-size", "10px")
+			.attr("transform", "translate(-75, -22)")
+			.text("-1");
 	}
 }
