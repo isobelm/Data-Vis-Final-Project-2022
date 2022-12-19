@@ -52,3 +52,11 @@ svg {
 	/* background-color: #100e28; */
 	/* stroke: white; */
 }
+
+.button:hover {
+	cursor: pointer;
+}
+
+.matrix-square:hover {
+	cursor: pointer;
+}

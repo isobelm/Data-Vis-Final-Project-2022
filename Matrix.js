@@ -13,6 +13,7 @@ class Matrix {
 		this.width =
 			parseInt(this.svg.style("width")) / 2 -
 			(this.marginAxis + this.margin);
+		this.svgWidth = parseInt(this.svg.style("width"));
 		if (this.width < this.height) this.height = this.width;
 		else this.width = this.height;
 		this.aspect = this.width / this.height;
@@ -26,9 +27,66 @@ class Matrix {
 				"translate(" + this.marginAxis + "," + this.marginAxis + ")"
 			);
 		this.loadData();
-		// this.graph = new Graph(this.height);
-		this.graph = new MapVis(this.height);
+		this.graphType = "g";
+		this.scatter = new Graph(this.height, this.svg, this.container);
+		this.map = new MapVis(this.height, this.svg, this.container);
+		this.setGraph();
 	}
+
+	setGraph = () => {
+		this.graph = this.scatter;
+		this.buttonText = "Map View";
+		this.graphType = "g";
+	};
+
+	setMap = () => {
+		this.graph = this.map;
+		this.buttonText = "Graph View";
+		this.graphType = "m";
+	};
+
+	// graphTypeSetters = {
+	// 	g: this.setGraph,
+	// 	m: this.setMap,
+	// };
+
+	switchGraph = () => {
+		this.graph.delete();
+		if (this.graphType === "g") this.setMap();
+		else this.setGraph();
+		this.graph.drawGraph();
+		d3.selectAll(".button").remove();
+		this.drawGraphButton();
+	};
+
+	drawGraphButton = () => {
+		let button = this.svg
+			.append("g")
+			.on("click", () => this.switchGraph())
+			.attr("class", "button")
+			.attr(
+				"transform",
+				"translate(" +
+					this.svgWidth / 2 +
+					"," +
+					(this.height + this.marginAxis + 50) +
+					")"
+			);
+		button
+			.append("rect")
+			.attr("width", "70px")
+			.attr("height", "20px")
+			.attr("x", "-35px")
+			.attr("y", "-14px")
+			.attr("fill", "#27253F");
+		button
+			.append("text")
+			.attr("fill", "#c4c2d7")
+			.attr("font-size", "12px")
+			// .attr("y", "20px")
+			.attr("text-anchor", "middle")
+			.text(this.buttonText);
+	};
 
 	pCorrelation = (x, y) => {
 		let sumX = 0,
@@ -83,7 +141,7 @@ class Matrix {
 	};
 
 	updateGraph = (row, column) => {
-		if (this.graph.xAxis === row) {
+		if (this.graphType === "g" && this.graph.xAxis === row) {
 			if (!this.graph.yAxes.includes(column)) {
 				let yAxes = this.graph.yAxes.slice();
 				yAxes.push(column);
@@ -226,6 +284,27 @@ class Matrix {
 		this.drawTitle();
 		let legend = this.g.append("g");
 		this.drawLegend(legend);
+		this.drawGraphButton();
+	};
+
+	drawCrossHairs = (x, y) => {
+		let midpoint = this.xScale(1) / 2;
+		d3.selectAll(".cross-hairs").remove();
+		let crossHairs = this.g.append("g").attr("class", "cross-hairs");
+		crossHairs
+			.append("line")
+			.attr("x1", "0")
+			.attr("x2", x + midpoint)
+			.attr("y1", y + midpoint)
+			.attr("y2", y + midpoint)
+			.attr("stroke", "#fff");
+		crossHairs
+			.append("line")
+			.attr("x1", x + midpoint)
+			.attr("x2", x + midpoint)
+			.attr("y1", 0)
+			.attr("y2", y + midpoint)
+			.attr("stroke", "#fff");
 	};
 
 	drawSquares = (g) => {
@@ -234,19 +313,44 @@ class Matrix {
 			let j = 0;
 			this.columns.forEach(function (column) {
 				let colour = this.zScale(this.matrix[row][column]);
+				let x = this.xScale(j);
+				let y = this.yScale(i);
 				g.append("rect")
+					.attr("class", "matrix-square")
 					.attr("fill", colour)
 					.attr("height", this.yScale(1))
 					.attr("width", this.xScale(1))
-					.attr(
-						"transform",
-						"translate(" +
-							this.xScale(j) +
-							"," +
-							this.yScale(i) +
-							")"
-					)
-					.on("click", () => this.updateGraph(row, column));
+					.attr("transform", "translate(" + x + "," + y + ")")
+					.on("click", () => {
+						this.updateGraph(row, column);
+					})
+					.on("mouseover", () => {
+						this.drawCrossHairs(x, y);
+					});
+				// var xPos = +d3.select(this).attr("x");
+				// var yPos = +d3.select(this).attr("y");
+				// var wid = +d3.select(this).attr("width");
+				// var hei = +d3.select(this).attr("height");
+				// d3.select(this)
+				// 	.attr("x", xPos - 5)
+				// 	.attr("width", wid + 10)
+				// 	.attr("y", yPos - 5)
+				// 	.attr("height", hei + 10)
+				// 	.attr("z", 300);
+				// });
+				// .on("mouseout", function () {
+				// 	d3.select(this);
+				// 	var xPos = +d3.select(this).attr("x");
+				// 	var yPos = +d3.select(this).attr("y");
+				// 	var wid = +d3.select(this).attr("width");
+				// 	var hei = +d3.select(this).attr("height");
+				// 	d3.select(this)
+				// 		.attr("x", xPos + 5)
+				// 		.attr("width", wid - 10)
+				// 		.attr("y", yPos + 5)
+				// 		.attr("height", hei - 10)
+				// 		.attr("z", 0);
+				// });
 				j++;
 			}, this);
 			i++;

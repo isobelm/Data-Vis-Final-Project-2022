@@ -1,28 +1,22 @@
 class Graph {
-	constructor(size) {
-		this.svg = d3.select("svg");
+	constructor(size, svg, container) {
+		this.svg = svg;
 		this.margin = 100;
 		this.marginAxis = 190;
-		this.container = d3.select(this.svg.node().parentNode);
+		this.container = container;
 		this.height = size;
 		this.width = size;
 		this.xScale = d3.scaleLinear().range([0, size]);
 		this.yScale = d3.scaleLinear().range([size, 0]);
-		this.g = this.svg
-			.append("g")
-			.attr("id", "graph")
-			.attr(
-				"transform",
-				"translate(" +
-					(this.margin + parseInt(this.svg.style("width")) / 2) +
-					"," +
-					this.marginAxis +
-					")"
-			);
+
 		this.colours = {};
 
 		// this.loadData();
 	}
+
+	delete = () => {
+		d3.selectAll(".scatter").remove();
+	};
 
 	updateData = (data, x, ys) => {
 		this.data = data;
@@ -51,6 +45,18 @@ class Graph {
 	};
 
 	drawGraph = () => {
+		this.g = this.svg
+			.append("g")
+			.attr("id", "graph")
+			.attr("class", "scatter")
+			.attr(
+				"transform",
+				"translate(" +
+					(this.margin + parseInt(this.svg.style("width")) / 2) +
+					"," +
+					this.marginAxis +
+					")"
+			);
 		this.setScale();
 		this.drawXAxis(this.g);
 
@@ -132,19 +138,14 @@ class Graph {
 		this.data.forEach((point) => {
 			Object.keys(point.columns).forEach((column) => {
 				// console.log("x: " + point.x + "\tsx: " + this.xScale(point.x));
-				this.drawCircle(g)
-					.attr("class", "point")
-					.attr("fill", this.colours[column])
-					// .attr("fill-opacity", 0.4)
-					.attr(
-						"transform",
-						"translate(" +
-							this.xScale(point.x) +
-							// (i % this.xScale.bandwidth())) +
-							"," +
-							this.yScale(point.columns[column]) +
-							")"
-					);
+				let x = this.xScale(point.x);
+				let y = this.yScale(point.columns[column]);
+				if (x !== undefined && y !== undefined)
+					this.drawCircle(g)
+						.attr("class", "point")
+						.attr("fill", this.colours[column])
+						// .attr("fill-opacity", 0.4)
+						.attr("transform", "translate(" + x + "," + y + ")");
 			});
 		});
 	}
