@@ -4,10 +4,10 @@ class Graph {
 		this.margin = 100;
 		this.marginAxis = 190;
 		this.container = container;
-		this.height = size;
+		this.height = size / 2;
 		this.width = size;
-		this.xScale = d3.scaleLinear().range([0, size]);
-		this.yScale = d3.scaleLinear().range([size, 0]);
+		this.xScale = d3.scaleLinear().range([0, this.width]);
+		this.yScale = d3.scaleLinear().range([this.height, 0]);
 
 		this.colours = {};
 
@@ -54,7 +54,7 @@ class Graph {
 				"translate(" +
 					(this.margin + parseInt(this.svg.style("width")) / 2) +
 					"," +
-					this.marginAxis +
+					(this.marginAxis + this.height) +
 					")"
 			);
 		this.setScale();

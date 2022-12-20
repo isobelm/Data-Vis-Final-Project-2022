@@ -30,34 +30,34 @@ class Matrix {
 		this.graphType = "g";
 		this.scatter = new Graph(this.height, this.svg, this.container);
 		this.map = new MapVis(this.height, this.svg, this.container);
-		this.setGraph();
+		// this.setGraph();
 	}
 
-	setGraph = () => {
-		this.graph = this.scatter;
-		this.buttonText = "Map View";
-		this.graphType = "g";
-	};
+	// setGraph = () => {
+	// 	this.graph = this.scatter;
+	// 	this.buttonText = "Map View";
+	// 	this.graphType = "g";
+	// };
 
-	setMap = () => {
-		this.graph = this.map;
-		this.buttonText = "Graph View";
-		this.graphType = "m";
-	};
+	// setMap = () => {
+	// 	this.graph = this.map;
+	// 	this.buttonText = "Graph View";
+	// 	this.graphType = "m";
+	// };
 
 	// graphTypeSetters = {
 	// 	g: this.setGraph,
 	// 	m: this.setMap,
 	// };
 
-	switchGraph = () => {
-		this.graph.delete();
-		if (this.graphType === "g") this.setMap();
-		else this.setGraph();
-		this.graph.drawGraph();
-		d3.selectAll(".button").remove();
-		this.drawGraphButton();
-	};
+	// switchGraph = () => {
+	// 	this.graph.delete();
+	// 	if (this.graphType === "g") this.setMap();
+	// 	else this.setGraph();
+	// 	this.graph.drawGraph();
+	// 	d3.selectAll(".button").remove();
+	// 	this.drawGraphButton();
+	// };
 
 	drawGraphButton = () => {
 		let button = this.svg
@@ -143,14 +143,19 @@ class Matrix {
 	};
 
 	updateGraph = (row, column) => {
-		if (this.graphType === "g" && this.graph.xAxis === row) {
-			if (!this.graph.yAxes.includes(column)) {
-				let yAxes = this.graph.yAxes.slice();
+		this.map.updateData(this.createGraphData(row, column), row, [column]);
+		if (this.scatter.xAxis === row) {
+			if (!this.scatter.yAxes.includes(column)) {
+				let yAxes = this.scatter.yAxes.slice();
 				yAxes.push(column);
-				this.graph.updateData(this.addGraphColumn(column), row, yAxes);
+				this.scatter.updateData(
+					this.addGraphColumn(column),
+					row,
+					yAxes
+				);
 			}
 		} else {
-			this.graph.updateData(this.createGraphData(row, column), row, [
+			this.scatter.updateData(this.createGraphData(row, column), row, [
 				column,
 			]);
 		}
@@ -176,8 +181,8 @@ class Matrix {
 	};
 
 	addGraphColumn = (column) => {
-		let data = this.graph.data;
-		let x = this.graph.xAxis;
+		let data = this.scatter.data;
+		let x = this.scatter.xAxis;
 		for (let i = 4; i < this.graphData.length; i++) {
 			if (
 				this.graphData[i][x] != "-" ||
@@ -208,7 +213,7 @@ class Matrix {
 	};
 
 	normaliseData(data, column) {
-		let keys = this.graph.yAxes.slice();
+		let keys = this.scatter.yAxes.slice();
 		keys.push(column);
 
 		let mins = {};
@@ -286,7 +291,7 @@ class Matrix {
 		this.drawTitle();
 		let legend = this.g.append("g");
 		this.drawLegend(legend);
-		this.drawGraphButton();
+		// this.drawGraphButton();
 	};
 
 	drawCrossHairs = (x, y) => {

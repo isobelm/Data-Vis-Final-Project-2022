@@ -15,9 +15,13 @@
 
 html,
 body {
-	width: 100vw;
-	height: 100vh;
+	/* width: 100vw;
+	height: 100vh; */
 	margin: 0;
+	width: 15in;
+	height: 8in;
+	/* height: 9in; */
+	/* background-color: red; */
 }
 
 .position-line {
@@ -26,29 +30,33 @@ body {
 
 body {
 	background-color: #100e28;
-	display: inline-block;
-	position: relative;
-	vertical-align: top;
-	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	/* position: relative; */
+	overflow: scroll;
 	color: #c4c2d7;
 	font-size: 140px;
 }
 
-.legend text {
-	/* font: normal 30 sans-serif; */
-	/* font-size: 30px; */
-	color: red;
-}
+/* .legend text { */
+/* font: normal 30 sans-serif; */
+/* font-size: 30px; */
+/* color: red;
+} */
 
 svg {
-	display: inline-block;
-	position: absolute;
+	/* display: inline-block;
+	position: absolute; */
+	/* vertical-align: middle; */
+
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	fill: #fff;
 	font-family: sans-serif;
+	background-color: #100e28;
 
 	/* background-color: #100e28; */
 	/* stroke: white; */

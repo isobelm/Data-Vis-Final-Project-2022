@@ -5,7 +5,7 @@ class MapVis {
 		this.margin = 100;
 		this.marginAxis = 190;
 		this.container = container;
-		this.height = size;
+		this.height = size / 2;
 		this.width = size;
 
 		this.svg
@@ -38,7 +38,7 @@ class MapVis {
 		this.path = d3.geoPath();
 		this.projection = d3
 			.geoEqualEarth()
-			.scale(140)
+			.scale(90)
 			.center([10, 0])
 			.translate([this.width / 2, this.height / 2]);
 
@@ -83,7 +83,7 @@ class MapVis {
 				"translate(" +
 					(this.margin + parseInt(this.svg.style("width")) / 2) +
 					"," +
-					this.marginAxis +
+					this.margin +
 					")"
 			);
 		this.drawMap();
@@ -171,19 +171,16 @@ class MapVis {
 			]);
 	}
 
-	drawTitle() {
-		this.g
-			.append("g")
-			.append("text")
-			.attr("class", "title")
-			.attr(
-				"transform",
-				"translate(" + this.width / 2 + "," + (this.height + 50) + ")"
-			)
-			.attr("font-size", "14px")
-			.attr("text-anchor", "middle")
-			.text("Selected data series");
-	}
+	// drawTitle() {
+	// 	this.g
+	// 		.append("g")
+	// 		.append("text")
+	// 		.attr("class", "title")
+	// 		.attr("transform", "translate(" + this.width / 2 + "," + 50 + ")")
+	// 		.attr("font-size", "14px")
+	// 		.attr("text-anchor", "middle")
+	// 		.text("Selected data series");
+	// }
 
 	drawLegend(g) {
 		g.append("rect")
@@ -243,10 +240,7 @@ class MapVis {
 			.append("g")
 			.append("text")
 			.attr("class", "title")
-			.attr(
-				"transform",
-				"translate(" + this.width / 2 + "," + (this.height + 50) + ")"
-			)
+			.attr("transform", "translate(" + this.width / 2 + "," + -70 + ")")
 			.attr("font-size", "14px")
 			.attr("text-anchor", "middle")
 			.text("Map representation of selected data series");
