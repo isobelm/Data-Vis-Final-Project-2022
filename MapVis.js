@@ -97,20 +97,14 @@ class MapVis {
 
 	drawMap = () => {
 		let topo = this.geoData;
-		console.log(this.geoData);
-
-		// Draw the map
 		this.g
 			.append("g")
 			.attr("class", "map")
 			.selectAll("path")
 			.data(topo.features)
 			.join("path")
-			// draw each country
 			.attr("d", d3.geoPath().projection(this.projection))
-			// set the color of each country
 			.attr("fill", (d) => {
-				// d.total = data.get(d.id) || 0;
 				let point = this.data.find((point) => d.id === point.country);
 				let color;
 				if (point === undefined) color = d3.color("#27253F");
@@ -123,19 +117,15 @@ class MapVis {
 			.selectAll("path")
 			.data(topo.features)
 			.join("path")
-			// draw each country
 			.attr("d", d3.geoPath().projection(this.projection))
-			// set the color of each country
 			.attr("mask", "url(#mask)")
 			.attr("fill", (d) => {
-				// d.total = data.get(d.id) || 0;
 				let point = this.data.find((point) => d.id === point.country);
 				let color;
 				if (point === undefined) color = d3.color("#27253F");
 				else color = this.yScale(point.columns[this.yAxis]);
 				return color;
 			});
-		// });
 	};
 
 	setScale() {
@@ -149,11 +139,7 @@ class MapVis {
 					return d.x;
 				}),
 			])
-			.range([
-				d3.color("#C4C2D7"),
-				// d3.color("#100E28"),
-				d3.color("#B47500"),
-			]);
+			.range([d3.color("#C4C2D7"), d3.color("#B47500")]);
 		this.yScale = d3
 			.scaleLinear()
 			.domain([
@@ -164,23 +150,8 @@ class MapVis {
 					return d.columns[this.yAxis];
 				}),
 			])
-			.range([
-				d3.color("#C4C2D7"),
-				// d3.color("#100E28"),
-				d3.color("#B47500"),
-			]);
+			.range([d3.color("#C4C2D7"), d3.color("#B47500")]);
 	}
-
-	// drawTitle() {
-	// 	this.g
-	// 		.append("g")
-	// 		.append("text")
-	// 		.attr("class", "title")
-	// 		.attr("transform", "translate(" + this.width / 2 + "," + 50 + ")")
-	// 		.attr("font-size", "14px")
-	// 		.attr("text-anchor", "middle")
-	// 		.text("Selected data series");
-	// }
 
 	drawLegend(g) {
 		g.append("rect")

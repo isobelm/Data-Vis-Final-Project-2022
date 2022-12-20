@@ -10,8 +10,6 @@ class Graph {
 		this.yScale = d3.scaleLinear().range([this.height, 0]);
 
 		this.colours = {};
-
-		// this.loadData();
 	}
 
 	delete = () => {
@@ -33,7 +31,6 @@ class Graph {
 				this.colours[column] = `hsl(${Math.random() * 360}, 70%, ${
 					57 + Math.random() * 10
 				}%)`;
-				// console.log(this.colours[column]);
 			}
 		});
 	};
@@ -123,28 +120,23 @@ class Graph {
 						return d;
 					})
 					.ticks(10)
-				// .tickSize(this.width)
 			)
 			.call((g) => g.selectAll(".tick text").attr("x", -10))
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", "-70")
 			.attr("fill", "#fff");
-		// .text("Life Expectancy");
 	}
 
 	drawPoints(g) {
-		// let i = 0;
 		this.data.forEach((point) => {
 			Object.keys(point.columns).forEach((column) => {
-				// console.log("x: " + point.x + "\tsx: " + this.xScale(point.x));
 				let x = this.xScale(point.x);
 				let y = this.yScale(point.columns[column]);
 				if (x !== undefined && y !== undefined)
 					this.drawCircle(g)
 						.attr("class", "point")
 						.attr("fill", this.colours[column])
-						// .attr("fill-opacity", 0.4)
 						.attr("transform", "translate(" + x + "," + y + ")");
 			});
 		});
@@ -185,12 +177,4 @@ class Graph {
 			i++;
 		});
 	}
-
-	// shapes = {
-	// 	Africa: this.drawCircle,
-	// 	Americas: this.drawTriangle,
-	// 	Asia: this.drawUpTriangle,
-	// 	Europe: this.drawDiamond,
-	// 	Oceania: this.drawSquare,
-	// };
 }

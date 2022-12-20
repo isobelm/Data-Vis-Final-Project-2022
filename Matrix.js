@@ -1,7 +1,5 @@
 class Matrix {
 	constructor() {
-		// console.log("hello");
-
 		this.currentGraph = this.sizeGraph;
 		this.svg = d3.select("svg");
 		this.margin = 20;
@@ -30,34 +28,7 @@ class Matrix {
 		this.graphType = "g";
 		this.scatter = new Graph(this.height, this.svg, this.container);
 		this.map = new MapVis(this.height, this.svg, this.container);
-		// this.setGraph();
 	}
-
-	// setGraph = () => {
-	// 	this.graph = this.scatter;
-	// 	this.buttonText = "Map View";
-	// 	this.graphType = "g";
-	// };
-
-	// setMap = () => {
-	// 	this.graph = this.map;
-	// 	this.buttonText = "Graph View";
-	// 	this.graphType = "m";
-	// };
-
-	// graphTypeSetters = {
-	// 	g: this.setGraph,
-	// 	m: this.setMap,
-	// };
-
-	// switchGraph = () => {
-	// 	this.graph.delete();
-	// 	if (this.graphType === "g") this.setMap();
-	// 	else this.setGraph();
-	// 	this.graph.drawGraph();
-	// 	d3.selectAll(".button").remove();
-	// 	this.drawGraphButton();
-	// };
 
 	drawGraphButton = () => {
 		let button = this.svg
@@ -130,15 +101,8 @@ class Matrix {
 			});
 			this.graphData.push(d);
 		}).then((d) => {
-			// console.log(this.graphData);
 			this.createCorrelationMatrix();
 			this.drawMatrix();
-			// this.graph.updateData(
-			// 	this.createGraphData(
-			// 		"financial freedom score",
-			// 		"government effectiveness"
-			// 	)
-			// );
 		});
 	};
 
@@ -200,13 +164,9 @@ class Matrix {
 					};
 					data.push(point);
 				}
-				let string = this.graphData[i][column];
-				let repstring = string.replaceAll(",", "");
-				let number = Number(repstring);
 				point.columns[column] = Number(
 					this.graphData[i][column].replaceAll(",", "")
 				);
-				// console.log(point.columns);
 			}
 		}
 		return this.normaliseData(data, column);
@@ -334,30 +294,6 @@ class Matrix {
 					.on("mouseover", () => {
 						this.drawCrossHairs(x, y);
 					});
-				// var xPos = +d3.select(this).attr("x");
-				// var yPos = +d3.select(this).attr("y");
-				// var wid = +d3.select(this).attr("width");
-				// var hei = +d3.select(this).attr("height");
-				// d3.select(this)
-				// 	.attr("x", xPos - 5)
-				// 	.attr("width", wid + 10)
-				// 	.attr("y", yPos - 5)
-				// 	.attr("height", hei + 10)
-				// 	.attr("z", 300);
-				// });
-				// .on("mouseout", function () {
-				// 	d3.select(this);
-				// 	var xPos = +d3.select(this).attr("x");
-				// 	var yPos = +d3.select(this).attr("y");
-				// 	var wid = +d3.select(this).attr("width");
-				// 	var hei = +d3.select(this).attr("height");
-				// 	d3.select(this)
-				// 		.attr("x", xPos + 5)
-				// 		.attr("width", wid - 10)
-				// 		.attr("y", yPos + 5)
-				// 		.attr("height", hei - 10)
-				// 		.attr("z", 0);
-				// });
 				j++;
 			}, this);
 			i++;
@@ -400,7 +336,6 @@ class Matrix {
 	formatTicks = (index) => {
 		let string = this.columns[index];
 		if (string != undefined) {
-			// console.log(string);
 			if (string.length > 42) string = string.substring(0, 33) + "...";
 			return string;
 		}
