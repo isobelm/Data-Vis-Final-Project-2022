@@ -1,4 +1,5 @@
-.axis .gaxis {
+.axis,
+.gaxis {
 	stroke-width: 1px;
 	color: #c4c2d7;
 }

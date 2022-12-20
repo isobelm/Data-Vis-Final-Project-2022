@@ -67,23 +67,25 @@ class Matrix {
 			.attr(
 				"transform",
 				"translate(" +
-					this.svgWidth / 2 +
+					(this.svgWidth / 2 + 100 + this.width) +
 					"," +
-					(this.height + this.marginAxis + 50) +
+					(this.margin + 90) +
 					")"
 			);
 		button
 			.append("rect")
-			.attr("width", "70px")
+			.attr("width", "80px")
 			.attr("height", "20px")
-			.attr("x", "-35px")
+			.attr("x", "-80px")
 			.attr("y", "-14px")
+			.attr("stroke-width", "1px")
+			.attr("stroke", "#c4c2d7")
 			.attr("fill", "#27253F");
 		button
 			.append("text")
 			.attr("fill", "#c4c2d7")
 			.attr("font-size", "12px")
-			// .attr("y", "20px")
+			.attr("x", "-40")
 			.attr("text-anchor", "middle")
 			.text(this.buttonText);
 	};
@@ -441,38 +443,40 @@ class Matrix {
 	}
 
 	drawLegend(g) {
+		g.attr("transform", "translate(-10, -30)");
+
 		g.append("rect")
 			.attr("width", 20)
 			.attr("height", 20)
 			.attr("fill", this.zScale(1))
 			.attr("class", "legend")
-			.attr("transform", "translate(-100, -85)");
+			.attr("transform", "translate(-20, -40)");
 		g.append("text")
 			.attr("class", "legend")
 			.attr("font-size", "10px")
-			.attr("transform", "translate(-75, -72)")
+			.attr("transform", "translate(-35, -26)")
 			.text("1");
 		g.append("rect")
 			.attr("width", 20)
 			.attr("height", 20)
 			.attr("fill", this.zScale(0))
 			.attr("class", "legend")
-			.attr("transform", "translate(-100, -60)");
+			.attr("transform", "translate(-20, -20)");
 		g.append("text")
 			.attr("class", "legend")
 			.attr("font-size", "10px")
-			.attr("transform", "translate(-75, -47)")
+			.attr("transform", "translate(-35, -6)")
 			.text("0");
 		g.append("rect")
 			.attr("width", 20)
 			.attr("height", 20)
 			.attr("fill", this.zScale(-1))
 			.attr("class", "legend")
-			.attr("transform", "translate(-100, -35)");
+			.attr("transform", "translate(-20, -0)");
 		g.append("text")
 			.attr("class", "legend")
 			.attr("font-size", "10px")
-			.attr("transform", "translate(-75, -22)")
+			.attr("transform", "translate(-35, 14)")
 			.text("-1");
 	}
 }

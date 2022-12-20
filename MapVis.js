@@ -88,6 +88,7 @@ class MapVis {
 			);
 		this.drawMap();
 
+		this.drawTitle();
 		if (this.xAxis != undefined) {
 			let legend = this.g.append("g");
 			this.drawLegend(legend);
@@ -216,22 +217,38 @@ class MapVis {
 			.attr("height", 20)
 			.attr("fill", "#B47500")
 			.attr("class", "mlegend")
-			.attr("transform", "translate(" + (this.width - 100) + ", -40)");
+			.attr("transform", "translate(" + (this.width - 20) + ", -40)");
 		g.append("text")
 			.attr("class", "mlegend")
 			.attr("font-size", "10px")
-			.attr("transform", "translate(" + (this.width - 140) + ", -27)")
+			.attr("transform", "translate(" + (this.width - 30) + ", -27)")
+			.attr("text-anchor", "end")
 			.text("highest");
 		g.append("rect")
 			.attr("width", 20)
 			.attr("height", 20)
 			.attr("fill", "#C4C2D7")
 			.attr("class", "mlegend")
-			.attr("transform", "translate(" + (this.width - 100) + ", -60)");
+			.attr("transform", "translate(" + (this.width - 20) + ", -60)");
 		g.append("text")
 			.attr("class", "mlegend")
 			.attr("font-size", "10px")
-			.attr("transform", "translate(" + (this.width - 140) + ", -47)")
+			.attr("transform", "translate(" + (this.width - 30) + ", -47)")
+			.attr("text-anchor", "end")
 			.text("lowest");
+	}
+
+	drawTitle() {
+		this.g
+			.append("g")
+			.append("text")
+			.attr("class", "title")
+			.attr(
+				"transform",
+				"translate(" + this.width / 2 + "," + (this.height + 50) + ")"
+			)
+			.attr("font-size", "14px")
+			.attr("text-anchor", "middle")
+			.text("Map representation of selected data series");
 	}
 }
